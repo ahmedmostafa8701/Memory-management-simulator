@@ -3,6 +3,11 @@ public class Partition {
     private int size;
 
     private Process process;
+
+    public Partition(int size) {
+        this.size = size;
+    }
+
     public Partition(int id, int size) {
         this.id = id;
         this.size = size;
@@ -20,6 +25,10 @@ public class Partition {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Process getProcess() {
         return process;
     }
@@ -30,7 +39,6 @@ public class Partition {
         size = process.getSize();
         return remain;
     }
-
     @Override
     public String toString() {
         return "Partition" + id;
