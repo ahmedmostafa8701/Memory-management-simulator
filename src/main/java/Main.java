@@ -7,7 +7,6 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         FileManager fileManager = new FileManager();
-        List<Partition> partitions = new ArrayList<Partition>();
         List<Process> processes = new ArrayList<Process>();
 
         System.out.println("Program starts...");
@@ -35,6 +34,8 @@ public class Main {
             System.out.println("--------------------------");
         }
         while(true){
+            List<Partition> partitions;
+            FileManager fileManager1 = new FileManager(fileManager.getPartitions());
             System.out.println("Select policy you want to apply: ");
             System.out.println("1)First fit");
             System.out.println("2)Worst fit");
@@ -61,12 +62,12 @@ public class Main {
             }
             List<Process> failed = new LinkedList<>();
             for(var process : processes){
-                boolean added = fileManager.addToStorage(process,policy);
+                boolean added = fileManager1.addToStorage(process,policy);
                 if(!added){
                     failed.add(process);
                 }
             }
-            fileManager.getPartitions().forEach(partition -> {
+            fileManager1.getPartitions().forEach(partition -> {
                 System.out.print("partition"+ partition.getId()+" ("+partition.getSize()+" KB) => ");
                 System.out.println(partition.getProcess()!=null?partition.getProcess().getName():"External fragment:");
             });
@@ -76,15 +77,15 @@ public class Main {
             System.out.println("Do you want to compact? 1)yes, 2)no");
             choice = scanner.nextInt();
             if(choice == 1){
-                fileManager.compaction();
+                fileManager1.compaction();
                 for (int i = 0; i < failed.size(); i++) {
-                    boolean added = fileManager.addToStorage(failed.get(i), policy);
+                    boolean added = fileManager1.addToStorage(failed.get(i), policy);
                     if(added){
                         failed.remove(i);
                         i--;
                     }
                 }
-                fileManager.getPartitions().forEach(partition -> {
+                fileManager1.getPartitions().forEach(partition -> {
                     System.out.print("partition"+ partition.getId()+" ("+partition.getSize()+" KB) => ");
                     System.out.println(partition.getProcess()!=null?partition.getProcess().getName():"External fragment:");
                 });
