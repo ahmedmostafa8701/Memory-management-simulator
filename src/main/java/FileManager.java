@@ -1,28 +1,30 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class FileManager {
     private List<Partition> partitions;
+    private static int generatedId = 0;
 
     public FileManager(List<Partition> partitions) {
         this.partitions = partitions;
     }
 
     public FileManager() {
-        this.partitions = new ArrayList<>();
+        this.partitions = new LinkedList<>();
     }
 
-    void addPartition(Partition partition){
-        partition.setId(partitions.size());
+    void addPartition(int size){
+        Partition partition = new Partition(generatedId++, size);
         partitions.add(partition);
     }
 
     public List<Partition> getPartitions() {
         return partitions;
     }
-    private void addExternalFragment(int size){
-        Partition partition = new Partition(partitions.size(), size);
-        addPartition(partition);
+    private void addExternalFragment(int size, int position){
+        Partition partition = new Partition(generatedId++, size);
+        partitions.add(position, partition);
     }
     public boolean addToStorage(Process process, Policy policy){
         Partition partition = policy.addToStorage(process, partitions);
@@ -30,7 +32,7 @@ public class FileManager {
             return false;
         }
         int remain = partition.setProcess(process);
-        addExternalFragment(remain);
+        addExternalFragment(remain, partitions.indexOf(partition) + 1);
         return true;
     }
     public void compaction(){
@@ -49,7 +51,7 @@ public class FileManager {
         if(i == partitions.size() - 1){
             partitions.get(i).setSize(partitions.get(i).getSize() + size);
         }else {
-            addExternalFragment(size);
+            addPartition(size);
         }
     }
 }

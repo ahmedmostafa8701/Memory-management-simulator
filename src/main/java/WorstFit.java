@@ -11,10 +11,9 @@ public class WorstFit implements Policy{
                 idx = i;
             }
         }
-        if(idx != -1){
-            partitions.get(idx).setProcess(process);
-            return partitions.get(idx);
+        if(idx == -1 || partitions.get(idx).getSize() < process.getSize()){
+            return null;
         }
-        return null;
+        return partitions.get(idx);
     }
 }
