@@ -1,6 +1,21 @@
 public class Partition {
     private int id;
     private int size;
+    private String name;
+
+    public Partition(int id, String name, int size) {
+        this.id = id;
+        this.size = size;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     private Process process;
 
@@ -39,6 +54,7 @@ public class Partition {
         size = process.getSize();
         return remain;
     }
+
     @Override
     public String toString() {
         return "Partition" + id;
