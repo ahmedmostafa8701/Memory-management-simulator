@@ -4,10 +4,6 @@ public class Partition {
 
     private Process process;
 
-    public Partition(int size) {
-        this.size = size;
-    }
-
     public Partition(int id, int size) {
         this.id = id;
         this.size = size;

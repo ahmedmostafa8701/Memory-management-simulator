@@ -21,7 +21,7 @@ public class FileManager {
         return partitions;
     }
     private void addExternalFragment(int size){
-        Partition partition = new Partition(size);
+        Partition partition = new Partition(partitions.size(), size);
         addPartition(partition);
     }
     public boolean addToStorage(Process process, Policy policy){
