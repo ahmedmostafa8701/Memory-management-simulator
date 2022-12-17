@@ -37,6 +37,6 @@ public class Partition {
     }
     @Override
     public String toString() {
-        return "Partition" + id;
+        return "Partition " + id + " (" + size + " KB) => " + (process != null ? process : "External fragment");
     }
 }

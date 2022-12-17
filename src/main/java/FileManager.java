@@ -4,10 +4,11 @@ import java.util.List;
 
 public class FileManager {
     private List<Partition> partitions;
-    private static int generatedId = 0;
+    private int generatedId = 0;
 
     public FileManager(List<Partition> partitions) {
         this.partitions = partitions;
+        generatedId = partitions.size();
     }
 
     public FileManager() {
@@ -32,7 +33,9 @@ public class FileManager {
             return false;
         }
         int remain = partition.setProcess(process);
-        addExternalFragment(remain, partitions.indexOf(partition) + 1);
+        if(remain != 0){
+            addExternalFragment(remain, partitions.indexOf(partition) + 1);
+        }
         return true;
     }
     public void compaction(){

@@ -2,13 +2,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         FileManager fileManager = new FileManager();
         List<Process> processes = new ArrayList<Process>();
-
         System.out.println("Program starts...");
         System.out.print("Enter number of partitions: ");
         int num_partitions = scanner.nextInt();
@@ -34,17 +34,19 @@ public class Main {
             System.out.println("--------------------------");
         }
         while(true){
-            List<Partition> partitions;
-            FileManager fileManager1 = new FileManager(fileManager.getPartitions());
+            List<Partition> partitions = new LinkedList<>();
+            for (Partition partition : fileManager.getPartitions()) {
+                Partition partition1 = new Partition(partition.getId(), partition.getSize());
+                partitions.add(partition1);
+            }
+            FileManager fileManager1 = new FileManager(partitions);
             System.out.println("Select policy you want to apply: ");
             System.out.println("1)First fit");
             System.out.println("2)Worst fit");
             System.out.println("3)Best fit");
             System.out.println("4)Exit.");
             System.out.print("choice: ");
-
             int choice = scanner.nextInt();
-
             Policy policy = null;
             if(choice == 1){
                 policy = new FirstFit();
@@ -67,12 +69,11 @@ public class Main {
                     failed.add(process);
                 }
             }
-            fileManager1.getPartitions().forEach(partition -> {
-                System.out.print("partition"+ partition.getId()+" ("+partition.getSize()+" KB) => ");
-                System.out.println(partition.getProcess()!=null?partition.getProcess().getName():"External fragment:");
-            });
+            for (Partition partition : fileManager1.getPartitions()) {
+                System.out.println(partition);
+            }
             for (Process process : failed) {
-                System.out.println(process.getName()+" can not be allocated!");
+                System.out.println(process+" can not be allocated!");
             }
             System.out.println("Do you want to compact? 1)yes, 2)no");
             choice = scanner.nextInt();
@@ -85,12 +86,11 @@ public class Main {
                         i--;
                     }
                 }
-                fileManager1.getPartitions().forEach(partition -> {
-                    System.out.print("partition"+ partition.getId()+" ("+partition.getSize()+" KB) => ");
-                    System.out.println(partition.getProcess()!=null?partition.getProcess().getName():"External fragment:");
-                });
+                for (Partition partition : fileManager1.getPartitions()) {
+                    System.out.println(partition);
+                }
                 for (Process process : failed) {
-                    System.out.println(process.getName()+" can not be allocated!");
+                    System.out.println(process+" can not be allocated!");
                 }
             }
         }
