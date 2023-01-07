@@ -42,8 +42,8 @@ public class Main {
             FileManager fileManager1 = new FileManager(partitions);
             System.out.println("Select policy you want to apply: ");
             System.out.println("1)First fit");
-            System.out.println("2)Worst fit");
-            System.out.println("3)Best fit");
+            System.out.println("2)Best fit");
+            System.out.println("3)Worst fit");
             System.out.println("4)Exit.");
             System.out.print("choice: ");
             int choice = scanner.nextInt();
@@ -51,9 +51,9 @@ public class Main {
             if(choice == 1){
                 policy = new FirstFit();
             }else if (choice == 2){
-                policy = new WorstFit();
-            }else if(choice == 3){
                 policy = new BestFit();
+            }else if(choice == 3){
+                policy = new WorstFit();
             }else{
                 break;
             }

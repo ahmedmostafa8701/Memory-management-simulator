@@ -43,18 +43,18 @@ public class FileManager {
         int i;
         for (i = 0; i < partitions.size(); i++) {
             if(partitions.get(i).getProcess() == null){
-                if(i == partitions.size() - 1){
+/*                if(i == partitions.size() - 1){
                     break;
-                }
+                }*/
                 size += partitions.get(i).getSize();
                 partitions.remove(i);
                 i--;
             }
         }
-        if(i == partitions.size() - 1){
+            addPartition(size);
+/*        if(i == partitions.size() - 1){
             partitions.get(i).setSize(partitions.get(i).getSize() + size);
         }else {
-            addPartition(size);
-        }
+        }*/
     }
 }
